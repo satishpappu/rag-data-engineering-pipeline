@@ -1,0 +1,9 @@
+topic_name,schema_version,event_type,compatibility_mode,owner
+ride_events,v1,ride_created,backward,streaming_team
+ride_events,v2,ride_completed,backward,streaming_team
+payment_events,v1,payment_processed,forward,finance_data
+clickstream_events,v1,page_view,backward,data_platform
+fraud_events,v1,fraud_alert,full,fraud_team
+inventory_events,v1,inventory_update,backward,supply_chain
+user_session_events,v1,session_start,backward,data_platform
+warehouse_usage_events,v1,warehouse_metrics,forward,analytics_eng

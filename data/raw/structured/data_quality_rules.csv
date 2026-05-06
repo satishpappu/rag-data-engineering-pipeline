@@ -1,0 +1,11 @@
+table_name,column_name,rule_type,rule_definition,severity
+rides_fact,ride_id,not_null,ride_id cannot be null,critical
+rides_fact,fare_amount,range_check,fare_amount > 0,critical
+rides_fact,trip_distance,range_check,trip_distance >= 0,warning
+transactions_fact,transaction_id,unique,transaction_id must be unique,critical
+transactions_fact,payment_amount,range_check,payment_amount > 0,critical
+customer_dim,email,regex,email must match valid email format,warning
+customer_dim,customer_id,not_null,customer_id cannot be null,critical
+streaming_events,event_timestamp,freshness,event timestamp within 15 minutes,warning
+inventory_snapshot,inventory_count,range_check,inventory_count >= 0,warning
+usage_metrics,warehouse_size,enum,warehouse size must match approved values,warning

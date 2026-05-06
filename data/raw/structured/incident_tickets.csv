@@ -1,0 +1,9 @@
+ticket_id,severity,issue_category,issue_description,root_cause,status,created_date,resolved_date
+INC001,critical,streaming,High Kafka consumer lag in ride events pipeline,consumer rebalance,resolved,2026-04-01,2026-04-01
+INC002,high,batch,Daily transaction load failed due to schema mismatch,upstream schema change,resolved,2026-04-03,2026-04-03
+INC003,medium,data_quality,Duplicate ride records detected in silver layer,deduplication bug,resolved,2026-04-05,2026-04-06
+INC004,critical,infrastructure,Spark cluster unavailable during streaming ingestion,cloud outage,resolved,2026-04-08,2026-04-08
+INC005,medium,freshness,Inventory snapshot delayed by 45 minutes,late upstream file delivery,resolved,2026-04-10,2026-04-10
+INC006,high,streaming,Checkpoint corruption detected in fraud detection pipeline,storage failure,resolved,2026-04-12,2026-04-12
+INC007,low,reporting,Dashboard latency increased during peak usage,heavy query load,resolved,2026-04-14,2026-04-14
+INC008,critical,data_corruption,Incorrect fare calculations observed in gold metrics,business logic bug,resolved,2026-04-16,2026-04-17

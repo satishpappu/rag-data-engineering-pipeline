@@ -1,0 +1,9 @@
+pipeline_name,source_system,target_table,pipeline_type,schedule,sla_minutes,owner,status
+adobe_clickstream_ingestion,Adobe Analytics,bronze_clickstream,batch,daily,60,data_eng,active
+ride_events_stream,Kafka,bronze_ride_events,streaming,realtime,5,streaming_team,active
+snowflake_usage_metrics,Snowflake,silver_usage_metrics,batch,hourly,30,analytics_eng,active
+dbt_customer_marts,Redshift,gold_customer_mart,transformation,daily,90,analytics_eng,active
+fraud_detection_stream,Kafka,silver_fraud_events,streaming,realtime,2,fraud_team,active
+payment_transactions_ingestion,SFTP,bronze_transactions,batch,daily,120,finance_data,active
+inventory_sync_pipeline,ERP,gold_inventory_snapshot,batch,hourly,45,supply_chain,active
+user_activity_aggregation,Kafka,gold_user_sessions,streaming,realtime,10,data_platform,active
