@@ -9,10 +9,10 @@ class SourceType(str, Enum):
     MARKDOWN = "markdown"
 
 class DocumentCategory(str, Enum):
-    TECHNICAL_DOC = "technical_documentation"
+    TECHNICAL_DOCUMENTATION = "technical_documentation"
     ENTERPRISE_RUNBOOK = "enterprise_runbook"
-    OP_METADATA = "operational_metadata"
-    DATA_QUALITY = "data_quality_rule"
+    OPERATIONAL_METADATA = "operational_metadata"
+    DATA_QUALITY_RULE = "data_quality_rule"
     INCIDENT_RECORD = "incident_record"
 
 class ProcessingStatus(str, Enum):

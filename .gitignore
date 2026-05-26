@@ -1,6 +1,6 @@
-venv/
+.venv/
 __pycache__/
-.env
-.idea/
 *.pyc
+vector_db/
+.idea/
 .DS_Store

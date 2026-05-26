@@ -1,0 +1,13 @@
+chunking:
+  chunk_size: 800
+  chunk_overlap: 150
+
+embedding:
+  model_name: all-MiniLM-L6-v2
+
+vectorstore:
+  persist_path: vector_db/chroma
+  collection_name: rag_documents
+
+retrieval:
+  top_k: 5

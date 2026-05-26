@@ -1,1 +1,10 @@
-pypdf
+chromadb==1.5.9
+langchain-text-splitters==1.1.2
+numpy==1.26.4
+pandas==3.0.3
+pydantic==2.13.4
+pypdf==6.12.2
+PyYAML==6.0.3
+sentence-transformers==2.6.1
+torch==2.2.2
+transformers==4.39.3

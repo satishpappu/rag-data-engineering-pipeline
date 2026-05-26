@@ -58,7 +58,7 @@ class PDFLoader(BaseLoader):
             document = Document(
                 document_id=f"{self.file_path.stem}_page_{page_index}",
                 source_type=SourceType.PDF,
-                document_category=DocumentCategory.TECHNICAL_DOC,
+                document_category=DocumentCategory.TECHNICAL_DOCUMENTATION,
                 file_name=self.file_path.name,
                 content=text,
                 metadata=metadata,
