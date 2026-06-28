@@ -1,12 +1,12 @@
 # RAG Data Engineering Pipeline
 
-Production-style Retrieval-Augmented Generation (RAG) ingestion and semantic retrieval pipeline built using Python, LangChain, SentenceTransformers, and ChromaDB.
+A modular Retrieval-Augmented Generation (RAG) pipeline demonstrating production-oriented document ingestion, semantic retrieval, and lightweight local response generation using Python, LangChain, SentenceTransformers, ChromaDB, and Hugging Face Transformers.
 
-This project focuses on the data engineering side of RAG systems, including document ingestion, normalization, chunking, embedding generation, vector persistence, and semantic retrieval.
+The project was built to understand the complete retrieval workflow from first principles, including document ingestion, normalization, chunking, embedding generation, vector indexing, semantic retrieval, prompt construction, and response generation.
 
 ---
 
-## Installation
+# Installation
 
 ```bash
 python3.11 -m venv .venv
@@ -15,59 +15,75 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+---
+
 # Architecture
 
 ```text
-Raw Documents (PDF / CSV / Markdown)
-                │
-                ▼
-        Ingestion Loaders
-                │
-                ▼
-     Canonical Document Schema
-                │
-                ▼
+               Raw Documents
+        (PDF / CSV / Markdown)
+                     │
+                     ▼
+          Document Ingestion
+                     │
+                     ▼
+      Canonical Document Schema
+           (Pydantic Models)
+                     │
+                     ▼
       Recursive Text Chunking
-                │
-                ▼
- SentenceTransformer Embeddings
-                │
-                ▼
-       ChromaDB Vector Store
-                │
-                ▼
-       Semantic Similarity Search
+                     │
+                     ▼
+     SentenceTransformer Embeddings
+                     │
+                     ▼
+        ChromaDB Vector Store
+                     │
+                     ▼
+      Semantic Similarity Retrieval
+                     │
+                     ▼
+         Prompt Construction
+                     │
+                     ▼
+      Hugging Face Local LLM
+                     │
+                     ▼
+         Generated Response
 ```
 
 ---
 
 # Features
 
-- Modular ingestion framework
-- Canonical normalized document schema
-- PDF, CSV, and Markdown ingestion
-- Metadata extraction and lineage tracking
-- LangChain recursive chunking
-- SentenceTransformer local embeddings
-- ChromaDB persistent vector storage
-- Semantic retrieval using cosine similarity
-- Config-driven architecture
-- Centralized logging
+* Modular document ingestion framework
+* Canonical document normalization using Pydantic
+* PDF, CSV, and Markdown ingestion
+* Metadata extraction and lineage tracking
+* Recursive semantic chunking using LangChain
+* SentenceTransformer embedding generation
+* Persistent vector indexing using ChromaDB
+* Semantic similarity search using cosine similarity
+* Prompt construction for grounded responses
+* Lightweight local LLM-based response generation
+* Config-driven architecture
+* Centralized logging
 
 ---
 
 # Tech Stack
 
-| Component | Technology |
-|---|---|
-| Language | Python |
-| Chunking | LangChain |
-| Embeddings | SentenceTransformers |
-| Vector Database | ChromaDB |
-| PDF Parsing | PyPDF |
-| Data Validation | Pydantic |
-| Configuration | YAML |
-| Logging | Python Logging |
+| Component           | Technology                |
+| ------------------- | ------------------------- |
+| Language            | Python                    |
+| Document Processing | LangChain                 |
+| Embeddings          | SentenceTransformers      |
+| Vector Database     | ChromaDB                  |
+| Generation          | Hugging Face Transformers |
+| Data Validation     | Pydantic                  |
+| PDF Parsing         | PyPDF                     |
+| Configuration       | YAML                      |
+| Logging             | Python Logging            |
 
 ---
 
@@ -84,37 +100,25 @@ rag-data-engineering-pipeline/
 │
 ├── scripts/
 │   ├── run_indexing.py
-│   └── query_vector_store.py
+│   ├── query_vector_store.py
+│   └── run_rag_query.py
 │
 ├── src/
-│   │
+│
 │   ├── ingestion/
-│   │   ├── base_loader.py
-│   │   ├── csv_loader.py
-│   │   ├── markdown_loader.py
-│   │   ├── pdf_loader.py
-│   │   ├── document_normalizer.py
-│   │   ├── ingestion_pipeline.py
-│   │   └── models.py
-│   │
 │   ├── chunking/
-│   │   └── document_chunker.py
-│   │
 │   ├── embeddings/
-│   │   └── embedding_model.py
-│   │
 │   ├── vectorstore/
-│   │   └── chroma_vector_store.py
-│   │
 │   ├── retrieval/
-│   │   └── semantic_retriever.py
+│   ├── generation/
+│   │   ├── prompt_builder.py
+│   │   └── llm_generator.py
+│   │
+│   ├── rag/
+│   │   └── rag_pipeline.py
 │   │
 │   ├── orchestration/
-│   │   └── indexing_orchestrator.py
-│   │
 │   └── utils/
-│       ├── logger.py
-│       └── config_loader.py
 │
 └── README.md
 ```
@@ -123,7 +127,7 @@ rag-data-engineering-pipeline/
 
 # Canonical Document Schema
 
-All ingested documents are normalized into a unified schema.
+Every ingested document is normalized into a common schema before indexing.
 
 ```python
 class Document(BaseModel):
@@ -145,11 +149,11 @@ class Document(BaseModel):
 
 # Supported Document Types
 
-| Type | Supported |
-|---|---|
-| PDF | Yes |
-| CSV | Yes |
-| Markdown | Yes |
+| Type     | Supported |
+| -------- | --------- |
+| PDF      | Yes       |
+| CSV      | Yes       |
+| Markdown | Yes       |
 
 ---
 
@@ -157,84 +161,99 @@ class Document(BaseModel):
 
 This project uses LangChain's `RecursiveCharacterTextSplitter`.
 
-Benefits:
-
-- Preserves semantic context
-- Maintains paragraph structure where possible
-- Supports chunk overlap for retrieval continuity
-- Improves semantic search quality
-
 Current configuration:
 
 ```yaml
-chunking:
-  chunk_size: 500
-  chunk_overlap: 100
+chunk_size: 500
+chunk_overlap: 100
 ```
+
+Benefits:
+
+* Preserves semantic context
+* Maintains paragraph boundaries where possible
+* Supports chunk overlap for retrieval continuity
+* Improves semantic retrieval quality
 
 ---
 
 # Embedding Model
 
-Embedding model:
+Current embedding model:
 
 ```text
 all-MiniLM-L6-v2
 ```
 
-Why this model?
+Reason for selection:
 
-- Lightweight
-- CPU friendly
-- Fast local inference
-- Strong semantic similarity performance
-- Ideal for local RAG MVPs
+* Lightweight
+* CPU-friendly
+* Fast local inference
+* Strong semantic similarity performance
+* Well suited for local RAG development
 
 ---
 
 # Vector Database
 
-This project uses ChromaDB as the vector store.
+ChromaDB is used as the persistent vector store.
 
 Features:
 
-- Persistent local vector storage
-- Cosine similarity search
-- Lightweight local deployment
-- Fast semantic retrieval
+* Persistent local storage
+* Cosine similarity search
+* Lightweight deployment
+* Fast semantic retrieval
+* Simple developer experience
+
+---
+
+# Generation Layer
+
+The retrieval pipeline has been extended with a lightweight generation layer to demonstrate a complete Retrieval-Augmented Generation workflow.
+
+Pipeline:
+
+```text
+User Query
+      │
+      ▼
+Semantic Retrieval
+      │
+      ▼
+Prompt Construction
+      │
+      ▼
+Local Hugging Face LLM
+      │
+      ▼
+Generated Response
+```
+
+Current implementation uses:
+
+```text
+google/flan-t5-base
+```
+
+The generation component is isolated behind an `LLMGenerator` interface, allowing future replacement with:
+
+* OpenAI GPT
+* Claude
+* Llama
+* Mistral
+* Ollama-hosted models
+
+without changing the retrieval pipeline.
 
 ---
 
 # Running the Project
 
-## 1. Create Virtual Environment
+## Index Documents
 
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-```
-
-## 2. Install Dependencies
-
-```bash
-pip install torch
-pip install "numpy<2"
-
-pip install \
-sentence-transformers==2.6.1 \
-"transformers<4.40" \
-langchain-text-splitters \
-chromadb \
-pypdf \
-pandas \
-pyyaml
-```
-
----
-
-# Index Documents
-
-Place documents inside:
+Place source documents inside:
 
 ```text
 data/raw/
@@ -248,9 +267,7 @@ PYTHONPATH=. python scripts/run_indexing.py
 
 ---
 
-# Query the Vector Store
-
-Run semantic retrieval:
+## Semantic Retrieval
 
 ```bash
 PYTHONPATH=. python scripts/query_vector_store.py
@@ -264,11 +281,21 @@ query = "How does Delta Lake support ACID transactions?"
 
 ---
 
+## End-to-End RAG Pipeline
+
+```bash
+PYTHONPATH=. python -m scripts.run_rag_query "What options does Databricks provide for ingesting data into Delta Lake?"
+```
+
+---
+
 # Example Retrieval Output
 
 ```text
 Result 1
-Chunk ID: databricks_deltalakeoverview_page_2_chunk_0
+
+Chunk ID:
+databricks_deltalakeoverview_page_2_chunk_0
 
 Content:
 
@@ -277,50 +304,56 @@ Atomic transactions with Delta Lake provide many options for updating data and m
 
 ---
 
-# Key Data Engineering Concepts Demonstrated
+# Data Engineering Concepts Demonstrated
 
-- Canonical normalization
-- Metadata lineage
-- Modular ingestion architecture
-- Semantic chunking
-- Embedding generation
-- Vector persistence
-- Semantic similarity retrieval
-- Config-driven orchestration
-- Production-style pipeline design
+* Modular ingestion architecture
+* Canonical document normalization
+* Metadata lineage
+* Recursive semantic chunking
+* Embedding generation
+* Vector persistence
+* Semantic similarity retrieval
+* Prompt construction
+* Config-driven orchestration
+* Production-oriented software design
 
 ---
 
 # Future Improvements
 
-- Hybrid retrieval (BM25 + vector search)
-- Metadata filtering
-- Reranking models
-- LLM response generation
-- Incremental indexing
-- Deduplication framework
-- Streaming ingestion support
-- OpenSearch / Pinecone integration
-- Airflow orchestration
-- Databricks integration
-- Evaluation framework
+* Hybrid Search (BM25 + Vector Search)
+* Metadata Filtering
+* Cross-Encoder Re-ranking
+* Similarity Thresholds
+* Retrieval Evaluation Framework
+* Guardrails
+* Citation Verification
+* Incremental Indexing
+* Streaming Ingestion
+* Pinecone / OpenSearch Integration
+* Databricks Vector Search
+* Airflow Orchestration
+* Conversation Memory
+* Agentic Workflows
 
 ---
 
-# Learning Goals
+# Learning Objectives
 
-This project was designed to explore:
+This project was built to deepen practical understanding of:
 
-- RAG architecture fundamentals
-- Semantic search systems
-- Vector databases
-- Production-oriented ingestion design
-- Data engineering patterns for GenAI systems
+* Retrieval-Augmented Generation (RAG)
+* Semantic Search
+* Vector Databases
+* Embedding Models
+* Production-style Data Engineering
+* Prompt Construction
+* Modular AI System Design
 
 ---
 
 # Author
 
-Venkata Satish Pappu
+**Venkata Satish Pappu**
 
-Senior Data Engineer | Python | PySpark | Databricks | AWS | Lakehouse Architecture | RAG Systems
+Senior Data Engineer | Python | PySpark | Databricks | AWS | Lakehouse Architecture | Generative AI | RAG Systems
