@@ -1,4 +1,7 @@
+# Virtual environments
 .venv/
+venv/
+venv311/
 __pycache__/
 *.pyc
 vector_db/
